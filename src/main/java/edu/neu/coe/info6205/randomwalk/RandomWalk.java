@@ -8,8 +8,8 @@ import java.util.Random;
 
 public class RandomWalk {
 
-    private final int x = 0;
-    private final int y = 0;
+    private int x = 0;
+    private int y = 0;
 
     private final Random random = new Random();
 
@@ -21,10 +21,12 @@ public class RandomWalk {
      */
     private void move(int dx, int dy) {
         // TO BE IMPLEMENTED  do move
+        x += dx;
+        y += dy;
 
 
         // SKELETON
-        throw new RuntimeException("Not implemented");
+        //throw new RuntimeException("Not implemented");
         // END SOLUTION
     }
 
@@ -34,10 +36,13 @@ public class RandomWalk {
      * @param m the number of steps the drunkard takes
      */
     private void randomWalk(int m) {
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+        for (int i = 0; i < m; i++) {
+            randomMove();
+        }
 
 
-        throw new RuntimeException("implementation missing");
+        //throw new RuntimeException("implementation missing");
     }
 
     /**
@@ -56,10 +61,11 @@ public class RandomWalk {
      * @return the (Euclidean) distance from the origin to the current position.
      */
     public double distance() {
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+        return Math.sqrt(x * x + y * y);
 
         // SKELETON
-        return 0.0;
+        //return 0.0;
         // END SOLUTION
     }
 
@@ -81,13 +87,15 @@ public class RandomWalk {
     }
 
     public static void main(String[] args) {
-        if (args.length == 0)
-            throw new RuntimeException("Syntax: RandomWalk steps [experiments]");
-        int m = Integer.parseInt(args[0]);
-        int n = 30;
-        if (args.length > 1) n = Integer.parseInt(args[1]);
-        double meanDistance = randomWalkMulti(m, n);
-        System.out.println(m + " steps: " + meanDistance + " over " + n + " experiments");
-    }
+        int[] stepCounts = {100, 200, 300, 400, 500, 600};
 
+        for (int steps : stepCounts) {
+            int numExperiments = 30; //number of experiments
+
+            double meanDistance = randomWalkMulti(steps, numExperiments);
+
+            System.out.println(steps + " steps: " + meanDistance + " over " + numExperiments + " experiments");
+        }
+
+    }
 }
