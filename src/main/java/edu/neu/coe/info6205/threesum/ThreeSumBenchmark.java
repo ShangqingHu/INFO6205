@@ -1,10 +1,10 @@
 package edu.neu.coe.info6205.threesum;
 
-import edu.neu.coe.info6205.util.TimeLogger;
-import edu.neu.coe.info6205.util.Utilities;
+import edu.neu.coe.info6205.util.*;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
 
 public class ThreeSumBenchmark {
     public ThreeSumBenchmark(int runs, int n, int m) {
@@ -32,10 +32,21 @@ public class ThreeSumBenchmark {
 
     private void benchmarkThreeSum(final String description, final Consumer<int[]> function, int n, final TimeLogger[] timeLoggers) {
         if (description.equals("ThreeSumCubic") && n > 4000) return;
-        // TO BE IMPLEMENTED 
+        // TO BE IMPLEMENTED
+        Stopwatch stopwatch = new Stopwatch();
+        double milliseconds = 0;
+        for (int i = 0; i < runs; i++) {
+            int[] xs = supplier.get();
+            function.accept(xs);
+            milliseconds += stopwatch.lap();
+        }
+        double averageMilliseconds = milliseconds / runs;
+        for (TimeLogger timeLogger : timeLoggers) timeLogger.log(averageMilliseconds, n);
+
+        stopwatch.close();
 
 
-        throw new RuntimeException("implementation missing");
+        //throw new RuntimeException("implementation missing");
     }
 
     private final static TimeLogger[] timeLoggersCubic = {
