@@ -1,5 +1,6 @@
 package edu.neu.coe.info6205.util;
 
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -60,11 +61,23 @@ public class Timer {
      * @return the average milliseconds per repetition.
      */
     public <T, U> double repeat(int n, boolean warmup, Supplier<T> supplier, Function<T, U> function, UnaryOperator<T> preFunction, Consumer<U> postFunction) {
-        // TO BE IMPLEMENTED : note that the timer is running when this method is called and should still be running when it returns.
+        logger.trace("repeat: with " + n + " runs");
+        pause();
 
+        for(int i = 0; i < n; i++) {
+            T t = supplier.get();
+            if(preFunction != null)
+                t = preFunction.apply(t);
 
-        // SKELETON
-        return 0;
+            resume();
+            U result = function.apply(t);
+            pauseAndLap();
+
+            if(postFunction != null) {
+                postFunction.accept(result);
+            }
+        }
+        return meanLapTime();
         // END SOLUTION
     }
 
@@ -193,7 +206,7 @@ public class Timer {
         // TO BE IMPLEMENTED 
 
         // SKELETON
-        return 0;
+        return System.nanoTime();
         // END SOLUTION
     }
 
@@ -208,7 +221,7 @@ public class Timer {
         // TO BE IMPLEMENTED 
 
         // SKELETON
-        return 0;
+        return TimeUnit.MILLISECONDS.convert(ticks, TimeUnit.NANOSECONDS);
         // END SOLUTION
     }
 
