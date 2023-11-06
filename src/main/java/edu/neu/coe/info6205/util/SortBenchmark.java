@@ -5,12 +5,14 @@ package edu.neu.coe.info6205.util;
 
 import edu.neu.coe.info6205.sort.BaseHelper;
 import edu.neu.coe.info6205.sort.Helper;
+import edu.neu.coe.info6205.sort.HelperFactory;
 import edu.neu.coe.info6205.sort.SortWithHelper;
 import edu.neu.coe.info6205.sort.elementary.BubbleSort;
 import edu.neu.coe.info6205.sort.elementary.InsertionSort;
 import edu.neu.coe.info6205.sort.elementary.RandomSort;
 import edu.neu.coe.info6205.sort.elementary.ShellSort;
 import edu.neu.coe.info6205.sort.linearithmic.TimSort;
+import edu.neu.coe.info6205.sort.elementary.HeapSort;
 import edu.neu.coe.info6205.sort.linearithmic.*;
 
 import java.io.FileNotFoundException;
@@ -83,7 +85,7 @@ public class SortBenchmark {
             runPureSystemSortBenchmark(words, nWords, nRuns, random);
 
         if (isConfigBenchmarkStringSorter("mergesort"))
-            runMergeSortBenchmark(words, nWords, nRuns, isConfigBenchmarkMergeSort("insurance"), isConfigBenchmarkMergeSort("nocopy"));
+            runStringSortBenchmark(words, nWords, nRuns, new MergeSortBasic<>(nWords, config), timeLoggersLinearithmic);
 
         if (isConfigBenchmarkStringSorter("quicksort3way"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_3way<>(nWords, config), timeLoggersLinearithmic);
@@ -93,6 +95,11 @@ public class SortBenchmark {
 
         if (isConfigBenchmarkStringSorter("quicksort"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_Basic<>(nWords, config), timeLoggersLinearithmic);
+
+        if (isConfigBenchmarkStringSorter("heapsort")) {
+            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
+            runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
+        }
 
         if (isConfigBenchmarkStringSorter("introsort"))
             runStringSortBenchmark(words, nWords, nRuns, new IntroSort<>(nWords, config), timeLoggersLinearithmic);
@@ -126,7 +133,7 @@ public class SortBenchmark {
         if (isConfigBenchmarkStringSorter("puresystemsort")) runPureSystemSortBenchmark(words, nWords, nRuns, random);
 
         if (isConfigBenchmarkStringSorter("mergesort"))
-            runMergeSortBenchmark(words, nWords, nRuns, isConfigBenchmarkMergeSort("insurance"), isConfigBenchmarkMergeSort("nocopy"));
+            runStringSortBenchmark(words, nWords, nRuns, new MergeSortBasic<>(nWords, config), timeLoggersLinearithmic);
 
         if (isConfigBenchmarkStringSorter("quicksort3way"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_3way<>(nWords, config), timeLoggersLinearithmic);
@@ -136,6 +143,11 @@ public class SortBenchmark {
 
         if (isConfigBenchmarkStringSorter("quicksort"))
             runStringSortBenchmark(words, nWords, nRuns, new QuickSort_Basic<>(nWords, config), timeLoggersLinearithmic);
+
+        if (isConfigBenchmarkStringSorter("heapsort")) {
+            Helper<String> helper = HelperFactory.create("Heapsort", nWords, config);
+            runStringSortBenchmark(words, nWords, nRuns, new HeapSort<>(helper), timeLoggersLinearithmic);
+        }
 
         if (isConfigBenchmarkStringSorter("introsort"))
             runStringSortBenchmark(words, nWords, nRuns, new IntroSort<>(nWords, config), timeLoggersLinearithmic);
